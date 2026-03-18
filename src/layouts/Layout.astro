@@ -1,0 +1,146 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+}
+
+const { title, description, canonical } = Astro.props;
+const canonicalURL = canonical || new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL('/og-image.jpg', Astro.site);
+---
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- SEO Meta Tags -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonicalURL} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+
+    <!-- Analytics -->
+    <script defer data-domain="co2-steuer-rechner-fuer-heizung.de" src="https://plausible.io/js/script.js"></script>
+
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "CO2 Steuer Rechner für Heizung",
+        "url": "https://co2-steuer-rechner-fuer-heizung.de",
+        "description": "Berechnen Sie die CO2-Steuer für Ihre Heizung einfach und schnell",
+        "publisher": {
+          "@type": "Organization",
+          "name": "CO2 Steuer Rechner",
+          "url": "https://co2-steuer-rechner-fuer-heizung.de"
+        }
+      }
+    </script>
+  </head>
+  <body class="min-h-screen flex flex-col bg-gray-50">
+    <!-- Header & Navigation -->
+    <header class="bg-white shadow-sm border-b border-gray-200">
+      <nav class="container mx-auto px-4 py-4">
+        <div class="flex items-center justify-between">
+          <a href="/" class="text-xl font-bold text-green-700 hover:text-green-800 transition">
+            CO2 Steuer Rechner
+          </a>
+          <div class="hidden md:flex space-x-6">
+            <a href="/" class="text-gray-700 hover:text-green-700 transition">Rechner</a>
+            <a href="/impressum" class="text-gray-700 hover:text-green-700 transition">Impressum</a>
+            <a href="/datenschutz" class="text-gray-700 hover:text-green-700 transition">Datenschutz</a>
+          </div>
+          <!-- Mobile Menu Button -->
+          <button id="mobile-menu-btn" class="md:hidden text-gray-700 hover:text-green-700 transition">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden mt-4 space-y-2">
+          <a href="/" class="block py-2 text-gray-700 hover:text-green-700 transition">Rechner</a>
+          <a href="/impressum" class="block py-2 text-gray-700 hover:text-green-700 transition">Impressum</a>
+          <a href="/datenschutz" class="block py-2 text-gray-700 hover:text-green-700 transition">Datenschutz</a>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Ad Space (Header) -->
+    <div class="bg-gray-100 border-b border-gray-200">
+      <div class="container mx-auto px-4 py-2 text-center text-xs text-gray-500">
+        <!-- Ad Placeholder: 728x90 Leaderboard -->
+        <div class="h-[90px] flex items-center justify-center bg-gray-200 rounded">
+          Werbung
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-1 container mx-auto px-4 py-8">
+      <slot />
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 mt-12">
+      <div class="container mx-auto px-4 py-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div>
+            <h3 class="font-bold text-gray-800 mb-3">CO2 Steuer Rechner</h3>
+            <p class="text-sm text-gray-600">
+              Berechnen Sie schnell und einfach die CO2-Steuer für Ihre Heizung und erfahren Sie mehr über Einsparmöglichkeiten.
+            </p>
+          </div>
+          <div>
+            <h3 class="font-bold text-gray-800 mb-3">Rechtliches</h3>
+            <ul class="space-y-2">
+              <li><a href="/impressum" class="text-sm text-gray-600 hover:text-green-700 transition">Impressum</a></li>
+              <li><a href="/datenschutz" class="text-sm text-gray-600 hover:text-green-700 transition">Datenschutz</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="font-bold text-gray-800 mb-3">Über diesen Rechner</h3>
+            <p class="text-sm text-gray-600">
+              Dieser Rechner hilft Ihnen, die CO2-Bepreisung für Ihre Heizkosten zu verstehen und zu kalkulieren.
+            </p>
+          </div>
+        </div>
+        <div class="mt-8 pt-8 border-t border-gray-200 text-center text-sm text-gray-600">
+          <p>&copy; {new Date().getFullYear()} CO2 Steuer Rechner für Heizung. Alle Rechte vorbehalten.</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Mobile Menu Toggle Script -->
+    <script>
+      const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+      const mobileMenu = document.getElementById('mobile-menu');
+
+      mobileMenuBtn?.addEventListener('click', () => {
+        mobileMenu?.classList.toggle('hidden');
+      });
+    </script>
+  </body>
+</html>
